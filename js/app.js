@@ -214,6 +214,20 @@
       }, 120);
     });
 
+    // botão › dentro da busca + Enter
+    const goSearch = () => {
+      state.query = input.value;
+      render();
+      $("#ias").scrollIntoView({ behavior: "smooth" });
+    };
+    $("#search-go").addEventListener("click", () => {
+      if (!input.value.trim()) { input.focus(); return; }
+      goSearch();
+    });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && input.value.trim()) goSearch();
+    });
+
     // "/" foca a busca
     document.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement !== input && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) {
@@ -318,7 +332,7 @@
     if (scroll) $("#ias").scrollIntoView({ behavior: "smooth" });
   }
 
-  /* ---------- reveals + contadores ---------- */
+  /* ---------- reveals ---------- */
 
   let io;
   function observeReveals() {
@@ -335,33 +349,13 @@
     $$(".reveal:not(.visible)").forEach((el) => io.observe(el));
   }
 
-  function animateCounters() {
-    const els = $$("[data-count]");
-    const dur = 1400;
-    const t0 = performance.now();
-    const tick = (t) => {
-      const p = Math.min(1, (t - t0) / dur);
-      const ease = 1 - Math.pow(1 - p, 3);
-      els.forEach((el) => {
-        const target = +el.dataset.count;
-        el.textContent = Math.round(target * ease) + (el.dataset.suffix || "");
-      });
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
-
   /* ---------- boot ---------- */
 
   function init() {
-    $("#stat-ais").dataset.count = AI_DATA.length;
-    $("#stat-sections").dataset.count = SECTIONS.length;
-    $("#stat-cats").dataset.count = CATEGORIES.length;
     $("#year").textContent = new Date().getFullYear();
 
     bind();
     render();
-    animateCounters();
     observeReveals();
   }
 
