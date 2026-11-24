@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unity Store — Todas as IAs em um só lugar</title>
   <meta name="description" content="O catálogo definitivo de IAs: Claude, GPT, Lovable, Manus, Gemini, Grok, Midjourney e dezenas mais — com busca e filtros instantâneos." />
-  <meta name="theme-color" content="#0a3fe0" />
+  <meta name="theme-color" content="#070b1d" />
 
   <link rel="icon" type="image/webp" href="assets/unity-icon.webp" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
@@ -14,19 +14,19 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Unity Store — Todas as IAs em um só lugar" />
   <meta property="og:description" content="Claude, GPT, Lovable, Manus e dezenas de IAs em um catálogo lindo com busca e filtros." />
-  <meta property="og:image" content="assets/unity-banner.webp" />
+  <meta property="og:image" content="assets/unity-art.webp" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- fundo animado -->
+  <!-- fundo -->
   <div class="bg" aria-hidden="true"></div>
   <div class="grid-overlay" aria-hidden="true"></div>
   <div class="shapes" aria-hidden="true">
@@ -37,10 +37,10 @@
     <span class="shape s5">✕</span>
   </div>
 
-  <!-- navegação estilo app -->
+  <!-- navegação — barra escura sólida, igual ao mockup -->
   <nav class="nav" id="nav">
     <a class="brand" href="#inicio">
-      <img class="brand-logo" src="assets/unity-icon.webp" alt="Unity Store" />
+      <img class="brand-logo" src="assets/unity-icon.webp" alt="Unity Store" width="40" height="40" />
       <span class="brand-name">Unity Store</span>
     </a>
     <div class="nav-links">
@@ -51,18 +51,13 @@
   </nav>
 
   <main>
-    <!-- hero -->
+    <!-- hero: a arte azul inteira com o GIF animado, igual ao mockup -->
     <section class="hero" id="inicio">
-
-      <div class="hero-sky">
-        <span class="sky-shape x1" aria-hidden="true">✕</span>
-        <span class="sky-shape x2" aria-hidden="true">□</span>
-        <div class="hero-glow" aria-hidden="true"></div>
-        <div class="streak a" aria-hidden="true"></div>
-        <div class="streak b" aria-hidden="true"></div>
-        <div class="streak c" aria-hidden="true"></div>
-        <!-- GIF/logo animado -->
-        <img class="hero-logo" src="assets/unity-logo.webp" alt="Unity Store" />
+      <div class="hero-art">
+        <span class="art-shape a" aria-hidden="true">✕</span>
+        <span class="art-shape b" aria-hidden="true">□</span>
+        <img class="hero-logo" src="assets/unity-logo-lg.webp" alt="Unity Store" width="760" height="760" />
+        <div class="hero-fade" aria-hidden="true"></div>
       </div>
 
       <div class="hero-content">
@@ -76,8 +71,8 @@
           <input id="search" type="search" autocomplete="off" spellcheck="false"
                  placeholder="Pesquisar qualquer IA…" aria-label="Pesquisar IA" />
           <button class="search-go" id="search-go" type="button" aria-label="Buscar">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true">
-              <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
         </div>

@@ -102,6 +102,7 @@
     const fav   = state.favs.has(a.name);
     return `
     <article class="card reveal" data-name="${esc(a.name)}" style="--d:${Math.min(60, a._i * 25)}ms">
+      <span class="card-watermark" aria-hidden="true">${esc(a.name.trim().charAt(0).toUpperCase())}</span>
       <div class="card-glow"></div>
       <button class="fav-btn${fav ? " is-fav" : ""}" data-fav="${esc(a.name)}" type="button"
               aria-label="${fav ? "Remover dos" : "Adicionar aos"} favoritos" title="Favoritar">
