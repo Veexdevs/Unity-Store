@@ -14,7 +14,8 @@
     section: "todos",
     cat: "todas",
     onlyFavs: false,
-    favs: new Set(JSON.parse(localStorage.getItem(STORE_FAVS) || "[]"))
+    favs: new Set(JSON.parse(localStorage.getItem(STORE_FAVS) || "[]")),
+    open: new Set()
   };
 
   /* ---------- utils ---------- */
@@ -100,27 +101,57 @@
     const sect  = sectById(a.section);
     const cat   = catById(a.cat);
     const fav   = state.favs.has(a.name);
+    const open  = state.open.has(a.name);
+    const letter = esc(a.name.trim().charAt(0).toUpperCase());
+    const hasLogo = !!(a.logo && LOGO_COLORS[a.logo]);
+    const brand   = hasLogo ? LOGO_COLORS[a.logo] : "";
+    const plans   = a.plans || [];
+
     return `
-    <article class="card reveal" data-name="${esc(a.name)}" style="--d:${Math.min(60, a._i * 25)}ms">
-      <span class="card-watermark" aria-hidden="true">${esc(a.name.trim().charAt(0).toUpperCase())}</span>
+    <article class="card reveal${open ? " open" : ""}" data-name="${esc(a.name)}" style="--d:${Math.min(60, a._i * 25)}ms">
+      <span class="card-watermark" aria-hidden="true">${letter}</span>
       <div class="card-glow"></div>
       <button class="fav-btn${fav ? " is-fav" : ""}" data-fav="${esc(a.name)}" type="button"
               aria-label="${fav ? "Remover dos" : "Adicionar aos"} favoritos" title="Favoritar">
         ${fav ? "★" : "☆"}
       </button>
-      <div class="card-top">
-        <span class="avatar avatar-${a.section}" aria-hidden="true">${esc(a.name.trim().charAt(0).toUpperCase())}</span>
-        <div class="card-id">
-          <h3 class="card-name">${highlight(a.name, state.query)}</h3>
-          <span class="card-section">${sect.emoji} ${esc(sect.name)}</span>
-        </div>
+
+      <!-- cabeçalho clicável: logo + NomeIA: Comprar Créditos + símbolo de expandir -->
+      <div class="card-head" data-toggle="${esc(a.name)}" role="button" tabindex="0"
+           aria-expanded="${open}" title="${open ? "Fechar" : "Ver"} preços e créditos">
+        <span class="avatar avatar-${a.section}${hasLogo ? " has-brand-logo" : ""}"
+              ${hasLogo ? `style="--brand:${brand}"` : ""} aria-hidden="true">
+          ${hasLogo ? `<img src="assets/logos/${esc(a.logo)}.svg" alt="" loading="lazy" />` : letter}
+        </span>
+        <span class="card-id">
+          <h3 class="card-name">${highlight(a.name, state.query)}<span class="card-suffix">: Comprar Créditos</span></h3>
+          <span class="card-section">${sect.emoji} ${esc(sect.name)} · ${cat.emoji} ${esc(cat.name)}</span>
+        </span>
+        <span class="chev" aria-hidden="true">▾</span>
       </div>
+
       <p class="card-desc">${highlight(a.desc, state.query)}</p>
-      <div class="card-foot">
-        <span class="cat-badge">${cat.emoji} ${esc(cat.name)}</span>
-        <a class="btn-open" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
-          Acessar <span class="arrow">↗</span>
-        </a>
+
+      <!-- painel que se estende pra baixo: créditos + preços -->
+      <div class="card-body">
+        <div class="card-body-inner">
+          <ul class="plans">
+            ${plans.map((pl) => `
+            <li class="plan">
+              <span class="plan-n">${esc(pl.n)}</span>
+              <span class="plan-c">${esc(pl.c)}</span>
+              <span class="plan-p">${esc(pl.p)}</span>
+            </li>`).join("")}
+          </ul>
+          <div class="card-foot">
+            <a class="btn-open" href="${esc(a.buy || a.url)}" target="_blank" rel="noopener noreferrer">
+              Comprar créditos <span class="arrow">↗</span>
+            </a>
+            <a class="btn-site" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
+              Abrir IA <span class="arrow">↗</span>
+            </a>
+          </div>
+        </div>
       </div>
     </article>`;
   }
@@ -241,6 +272,11 @@
         render();
         input.blur();
       }
+      // Enter/Espaço expande o card quando o cabeçalho está focado
+      if ((e.key === "Enter" || e.key === " ") && document.activeElement?.hasAttribute?.("data-toggle")) {
+        e.preventDefault();
+        document.activeElement.click();
+      }
     });
 
     // chips (delegação)
@@ -260,6 +296,16 @@
         if (was) { state.favs.delete(name); toast("☆ " + name + " removido dos favoritos"); }
         else { state.favs.add(name); toast("★ " + name + " favoritado!"); }
         localStorage.setItem(STORE_FAVS, JSON.stringify([...state.favs]));
+        render();
+        return;
+      }
+
+      // expandir/recolher o painel de créditos
+      const toggle = e.target.closest("[data-toggle]");
+      if (toggle) {
+        const name = toggle.dataset.toggle;
+        if (state.open.has(name)) state.open.delete(name);
+        else state.open.add(name);
         render();
         return;
       }
