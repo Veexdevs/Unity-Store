@@ -32,6 +32,7 @@ body {
   color: var(--ink);
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -40,12 +41,12 @@ body {
 /* ---------- fundo do conteúdo (depois do hero) ---------- */
 
 .bg {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(900px 520px at 85% 20%, rgba(10, 63, 224, 0.16), transparent 60%),
-    radial-gradient(800px 600px at -10% 60%, rgba(10, 63, 224, 0.12), transparent 55%),
+    radial-gradient(900px 520px at 85% 8%, rgba(10, 63, 224, 0.16), transparent 60%),
+    radial-gradient(800px 600px at -10% 30%, rgba(10, 63, 224, 0.12), transparent 55%),
     linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 40%, #05081a 100%);
 }
 
@@ -158,61 +159,49 @@ body {
 
 @media (max-width: 640px) { .nav-links a:not(.cta) { display: none; } }
 
-/* ---------- hero — a arte azul inteira, como no mockup ---------- */
+/* ---------- hero — o GIF animado É o fundo, cobrindo tudo (sem caixa de imagem) ---------- */
 
 .hero { position: relative; }
 
 .hero-art {
   position: relative;
-  display: grid;
-  place-items: center;
+  width: 100%;
+  /* proporção do mockup (~68% da largura), sem estourar a tela */
+  height: max(min(68vw, 92vh), 52vw);
+  min-height: 320px;
   overflow: hidden;
-  background:
-    radial-gradient(120% 100% at 50% 30%, #0a4ae4 0%, #0736c8 45%, #0523a0 72%, #041b7a 100%);
+  background: #0736c8;
 }
 
-/* nas laterais (desktop) a arte continua via símbolos e feixes */
-
-.art-shape {
+.hero-art::before {
+  content: "";
   position: absolute;
-  font-weight: 900;
-  color: rgba(190, 215, 255, 0.14);
-  text-shadow: 0 0 40px rgba(160, 210, 255, 0.35);
-  user-select: none;
-  animation: drift 16s ease-in-out infinite alternate;
-  display: none;
+  inset: 0;
+  background-image: url("../assets/unity-logo-lg.webp");
+  background-size: cover;
+  background-position: 50% 55%;
+  background-repeat: no-repeat;
+  animation: art-breathe 16s ease-in-out infinite;
+  will-change: transform;
 }
 
-.art-shape.a { top: 8%; left: 7%; font-size: 120px; }
-.art-shape.b { top: 12%; right: 8%; font-size: 100px; animation-delay: -5s; }
-
-@media (min-width: 900px) {
-  .art-shape { display: block; }
+@keyframes art-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.045); }
 }
 
-.hero-logo {
-  position: relative;
-  z-index: 1;
-  width: min(100%, 760px);
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 0 50px rgba(70, 160, 255, 0.55));
-  animation: logo-breathe 5s ease-in-out infinite;
-}
-
-@keyframes logo-breathe {
-  0%, 100% { transform: scale(1);        filter: drop-shadow(0 0 40px rgba(70, 160, 255, 0.5)); }
-  50%      { transform: scale(1.025);    filter: drop-shadow(0 0 64px rgba(120, 215, 255, 0.8)); }
-}
-
-/* transição da arte azul para a seção escura (igual ao mockup) */
+/* a arte dissolve no fundo da página — nenhuma linha de separação */
 
 .hero-fade {
   position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 180px;
+  left: 0; right: 0; bottom: -1px;
+  height: 38%;
   z-index: 2;
-  background: linear-gradient(180deg, transparent 0%, rgba(11, 17, 40, 0.55) 55%, var(--bg-1) 100%);
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(11, 17, 40, 0.35) 45%,
+    rgba(11, 17, 40, 0.82) 76%,
+    var(--bg-1) 100%);
   pointer-events: none;
 }
 

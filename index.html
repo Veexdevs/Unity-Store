@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=5" />
 </head>
 <body>
 
@@ -51,12 +51,10 @@
   </nav>
 
   <main>
-    <!-- hero: a arte azul inteira com o GIF animado, igual ao mockup -->
+    <!-- hero: o GIF animado É o fundo — cobre tudo e dissolve na página, sem separação -->
     <section class="hero" id="inicio">
-      <div class="hero-art">
-        <span class="art-shape a" aria-hidden="true">✕</span>
-        <span class="art-shape b" aria-hidden="true">□</span>
-        <img class="hero-logo" src="assets/unity-logo-lg.webp" alt="Unity Store" width="760" height="760" />
+      <div class="hero-art" role="img"
+           aria-label="Arte animada da Unity Store: logo brilhante sobre fundo azul com símbolos PlayStation">
         <div class="hero-fade" aria-hidden="true"></div>
       </div>
 
@@ -101,7 +99,7 @@
 
   <button id="to-top" aria-label="Voltar ao topo" type="button">↑</button>
 
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/data.js?v=5"></script>
+  <script src="js/app.js?v=5"></script>
 </body>
 </html>
